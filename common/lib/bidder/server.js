@@ -30,8 +30,6 @@ if (Meteor.isServer) {
           }));
         }
 
-        console.log(currentAuction);
-
         if (_.isEmpty(currentAuction.bids)) {
           // Empty object, just wait for the next round.
           return;
@@ -40,8 +38,6 @@ if (Meteor.isServer) {
         // Get the winning word
         var bids = currentAuction.bids;
         var winningBid = Object.keys(bids).sort(function(a,b){return bids[b]-bids[a]})[0];
-
-        console.log(winningBid);
 
         // Check if we're at an end condition
         if (serverState.lookingForQuestion) {

@@ -99,3 +99,39 @@ Template.homepage.events({
     event.target.message.value = "";
   }
 });
+
+Template.homepage.onRendered( function() {
+  if (!Meteor.user()) {
+    Meteor.loginAsGuest(function (err, boardId) {
+      if (err) {
+        alert(err);
+      }
+    });
+  }
+
+  this.autorun(function() {
+    Meteor.subscribe('currentQuestionAnswerAuction');
+    Meteor.subscribe("messages", function() {
+      var messages = Messages.find({});
+
+      messages.observeChanges({
+        added: function() {
+          var chatText = $("#chat-text");
+          setTimeout(function() {
+            chatText.scrollTop(chatText[0].scrollHeight);
+          }, 100); // much hack
+        }
+      });
+    });
+  });
+});
+
+Template.homepage.events({
+  'submit #message-input': function(event) {
+    event.preventDefault();
+    var text = event.target.message.value;
+    Meteor.call('makeBid', text, Questions.findOne({})  ._id, Meteor.userId(), function() {
+    });
+    event.target.message.value = "";
+  }
+});

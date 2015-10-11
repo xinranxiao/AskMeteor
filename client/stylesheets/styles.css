@@ -19,11 +19,10 @@
 }
 
 .masthead.segment {
-    min-height: 300px;
     padding: 1em 0em;
 }
 .masthead h1.ui.header {
-    margin-top: 1em;
+    margin-top: 0em;
     margin-bottom: 0em;
     font-size: 4em;
     font-weight: normal;

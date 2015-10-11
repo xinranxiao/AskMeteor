@@ -5,9 +5,9 @@ if (Meteor.isServer) {
 
   Meteor.methods({
     createGuest: function () {
-      var guestName = "guest-#" + Random.id();
+      var guestName = Moniker.choose();
       while (Meteor.users.find({ username: guestName }).count() > 0) {
-        guestName = "guest-#" + Random.id();
+        guestName = Moniker.choose();
       }
       var email = guestName + "@example.com";
 
