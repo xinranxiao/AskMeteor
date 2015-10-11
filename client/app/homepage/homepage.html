@@ -16,8 +16,12 @@
                             </div>
                         </div>
                         <div id="column">
-                            <div id="countdown" class="ui text container">
-                                <b>{{countDown}}</b> seconds left
+                            <br>
+                            <div class="ui progress" data-percent={{progress}}>
+                                <div class="bar" style="transition-duration: 300ms; width: {{progress}}%;">
+                                    <div class="progress">{{countDownMessage}}</div>
+                                </div>
+                                <div class="label">Time Left</div>
                             </div>
                         </div>
                     </div>

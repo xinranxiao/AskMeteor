@@ -69,6 +69,20 @@ Template.homepage.helpers({
 
   countDown: function() {
     return countdown.get() || 0;
+  },
+
+  countDownMessage: function() {
+    var time = countdown.get() || 0;
+    if (0 === time || '0' === time) {
+      return "0";
+    } else {
+      return time + " Seconds";
+    }
+  },
+
+  progress: function() {
+    var time = countdown.get() || 0;
+    return time*100/9;
   }
 });
 
