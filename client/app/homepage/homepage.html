@@ -1,2 +1,67 @@
 <template name="homepage">
+    <div class="ui grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui vertical masthead center aligned segment">
+                    <div class="ui text container">
+                        <h1 class="ui header">
+                            MeteorAnswers
+                        </h1>
+                        <h2>
+                            Crowdsourcing answers to questions one. word. at. a. time.
+                        </h2>
+                        <div id="current-question" class="ui segment scroll-box">
+                            {{currentQuestion}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <div id="current-answer" class="ui segment">
+                            {{currentAnswer}}
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="ui grid">
+                            <div class="row">
+                                <div class="column">
+                                    <div id="current-tally" class="ui segment">
+                                        <h4 class="ui header">Highest Voted Suggestions</h4>
+                                        <div id="current-tally-list" class="ui list">
+                                            {{#each topAnswerBids}}
+                                                <div class="item">{{phrase}}: {{count}}</div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="column">
+                                    <div id="chat-text-segment" class="ui segment">
+                                        <h4 class="ui header">Chat</h4>
+                                        <div id="chat-text" class="ui list scroll-box">
+                                            {{#each messages}}
+                                                <div class="item"><strong>{{authorName}}</strong>:  {{text}}</div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="column">
+                                    <form class="ui input" id="message-input">
+                                        <input type="text" name="message" placeholder="Let your voice be heard...">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
