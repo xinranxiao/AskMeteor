@@ -4,12 +4,26 @@
             <div class="column">
                 <div class="ui vertical masthead center aligned segment">
                     <div class="ui text container">
-                        <h1 class="ui header">
+                        <h1 class="ui green header">
                             AskMeteor
                         </h1>
-                        <h2>
+                        <h3>
                             Crowdsourcing answers to questions one. piece. at. a. time.
-                        </h2>
+                        </h3>
+                        <div id="column">
+                            <div id="current-question" class="ui green text container">
+                                <h2 class="ui green header">{{currentQuestion}}</h2>
+                            </div>
+                        </div>
+                        <div id="column">
+                            <br>
+                            <div class="ui progress {{barStatus}}" data-percent={{progress}}>
+                                <div class="bar" style="transition-duration: 300ms; width: {{progress}}%;">
+                                    <div class="progress">{{countDownMessage}}</div>
+                                </div>
+                                <div class="label">Time Left</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

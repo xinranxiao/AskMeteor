@@ -21,7 +21,13 @@ Template.homepage.helpers({
 
   currentQuestion: function() {
     var question = Questions.find({}).fetch()[0];
-    return question ? question.text : 'Ask A Question!';
+    var serverState = ServerState.findOne({});
+    if (serverState) {
+      if (serverState.lookingForQuestion) {
+        return 'Ask A Question!';
+      }
+    }
+    return question ? "Current Question: " + question.text : 'Ask A Question!';
   },
 
   currentAnswer: function() {
@@ -65,8 +71,18 @@ Template.homepage.helpers({
     return topbids;
   },
 
-  countDown: function() {
-    return countdown.get() || 0;
+  barStatus: function() {
+    var time = countdown.get() || 0;
+    if (time > 4) {
+      return "success";
+    }
+
+    if (time > 0) {
+      return "warning";
+    }
+
+
+    return "error";
   },
 
   countDownMessage: function() {
