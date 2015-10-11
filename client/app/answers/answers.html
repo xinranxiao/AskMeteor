@@ -7,20 +7,22 @@
                         <h1 class="ui header">
                             Previous Answers
                         </h1>
-                        <div id="answers-list" class="ui list">
-                            {{#each answersList}}
-                                <div class="item">
-                                    <div class="two column grid">
-                                        <div class="column">
-                                            <strong>Q:</strong>{{questionText}}
-                                        </div>
-                                        <div class="column">
-                                            <strong>A:</strong>{{answerText}}
-                                        </div>
-                                    </div>
-                                </div>
-                            {{/each}}
-                        </div>
+                        <table class="ui center aligned table">
+                            <thead>
+                            <tr>
+                                <th>Questions</th>
+                                <th>Answers</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {{#each answersList}}
+                                    <tr>
+                                        <td>{{questionText}}</td>
+                                        <td>{{answerText}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
