@@ -1,4 +1,4 @@
-var countdown = new ReactiveCountdown(10);
+var countdown = new ReactiveCountdown(9);
 
 Template.homepage.helpers({
   messages: function() {
@@ -26,8 +26,6 @@ Template.homepage.helpers({
 
   currentAnswer: function() {
     var answer = Answers.find({}).fetch()[0];
-    countdown.stop();
-    countdown.start();
     if (!answer) {
       return "";
     }
@@ -82,7 +80,7 @@ Template.homepage.helpers({
 
   progress: function() {
     var time = countdown.get() || 0;
-    return time*100/9;
+    return time*100/8;
   }
 });
 
@@ -96,7 +94,15 @@ Template.homepage.onRendered( function() {
   }
 
   this.autorun(function() {
-    Meteor.subscribe('currentQuestionAnswerAuction');
+    Meteor.subscribe('currentQuestionAnswerAuction', function() {
+      var auction = Auctions.find({});
+      auction.observeChanges({
+        added: function() {
+          countdown.stop();
+          countdown.start();
+        }
+      })
+    });
     Meteor.subscribe("messages", function() {
       var messages = Messages.find({});
 

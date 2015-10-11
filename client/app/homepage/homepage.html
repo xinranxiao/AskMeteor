@@ -10,24 +10,30 @@
                         <h2>
                             Crowdsourcing answers to questions one. piece. at. a. time.
                         </h2>
-                        <div id="column">
-                            <div id="current-question" class="ui text container">
-                                <b>{{currentQuestion}}</b>
-                            </div>
-                        </div>
-                        <div id="column">
-                            <br>
-                            <div class="ui progress" data-percent={{progress}}>
-                                <div class="bar" style="transition-duration: 300ms; width: {{progress}}%;">
-                                    <div class="progress">{{countDownMessage}}</div>
-                                </div>
-                                <div class="label">Time Left</div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row">
+          <div class="column">
+            <div class="ui vertical center aligned segment">
+              <div class="ui text container">
+                <div id="current-question" class="ui segment scroll-box">
+                  {{currentQuestion}}
+                  <br/><br/>
+                  <div class="ui progress" data-percent={{progress}}>
+                    <div class="bar" style="transition-duration: 300ms; width: {{progress}}%;">
+                      <div class="progress">{{countDownMessage}}</div>
+                    </div>
+                    <div class="label">Time Left</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
             <div class="column">
                 <div class="ui two column grid">
@@ -64,7 +70,7 @@
                             </div>
                             <div class="row">
                                 <div class="column">
-                                    <form class="ui input" id="message-input">
+                                    <form class="ui input fluid" id="message-input">
                                         <input type="text" name="message" placeholder="Let your voice be heard...">
                                     </form>
                                 </div>

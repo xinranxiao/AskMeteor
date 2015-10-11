@@ -13,9 +13,22 @@ if (Meteor.isServer) {
    */
   Bidder.start = function() {
     SyncedCron.add({
+      name: 'clean up empty auctions',
+      schedule: function(parser) {
+        return parser.text('every 45 minutes');
+      },
+      job: function() {
+        // Delete empty auctions more than 15 minutes old.
+        var before = new Date();
+        before.setMinutes(before.getMinutes() - 15);
+        Auctions.remove({ bids: {}, createdAt: { $lte: before} });
+      }
+    });
+
+    SyncedCron.add({
       name: 'run auction',
       schedule: function(parser) {
-        return parser.text('every 10 seconds'); // TODO @xx hardcoded every 20 seconds.
+        return parser.recur().every(10).second(); // TODO @xx hardcoded every 20 seconds.
       },
       job: function() {
         var serverState = ServerState.findOne();
@@ -30,8 +43,15 @@ if (Meteor.isServer) {
           }));
         }
 
+        // Empty bid just continue
         if (_.isEmpty(currentAuction.bids)) {
-          // Empty object, just wait for the next round.
+          // Create a new auction.
+          Auctions.insert({
+            questionId: currentQuestionId,
+            bids: {},
+            participants: [],
+            createdAt: new Date()
+          });
           return;
         }
 
