@@ -94,8 +94,11 @@ Template.homepage.events({
   'submit #message-input': function(event) {
     event.preventDefault();
     var text = event.target.message.value;
+
+    // Sanitize for bids
     Meteor.call('makeBid', text, Questions.findOne({})  ._id, Meteor.userId(), function() {
     });
+
     event.target.message.value = "";
   }
 });
@@ -124,14 +127,4 @@ Template.homepage.onRendered( function() {
       });
     });
   });
-});
-
-Template.homepage.events({
-  'submit #message-input': function(event) {
-    event.preventDefault();
-    var text = event.target.message.value;
-    Meteor.call('makeBid', text, Questions.findOne({})  ._id, Meteor.userId(), function() {
-    });
-    event.target.message.value = "";
-  }
 });

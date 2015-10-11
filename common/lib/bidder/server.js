@@ -70,10 +70,19 @@ if (Meteor.isServer) {
           });
         } else {
           // Append this to the corresponding answer
-          Answers.update(
-            { questionId: currentQuestionId},
-            { $push: { text: winningBid }}
-          );
+          // Check if we're doing a delete
+          if (winningBid === "<delete>") {
+            // Removes the latest addition.
+            Answers.update(
+              { questionId: currentQuestionId},
+              { $pop: { text: 1 }}
+            );
+          } else {
+            Answers.update(
+              { questionId: currentQuestionId},
+              { $push: { text: winningBid }}
+            );
+          }
         }
 
         // Create a new auction.

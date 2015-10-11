@@ -1,5 +1,10 @@
 Meteor.methods({
   'makeBid': function(message, currentQuestionId, userId) {
+    // Enforce max length
+    if (message.length > 400) {
+      return;
+    }
+
     Messages.insert({
       text: message,
       author: userId
@@ -8,6 +13,19 @@ Meteor.methods({
     if (!auction){
       return;
     }
+
+    // Each user is only allowed to bid once per auction.
+    if (_.contains(auction.participants, userId)) {
+      return;
+    }
+
+    // Sanitize for valid bid.
+    if (message[0] !== '!') {
+      return;
+    } else {
+      message = message.slice(1);
+    }
+
     var bids = auction.bids;
     if (bids[message]) {
       bids[message] = bids[message] + 1;
@@ -15,6 +33,6 @@ Meteor.methods({
       bids[message] = 1;
     }
 
-    Auctions.update(auction._id, { $set : { bids: bids}});
+    Auctions.update(auction._id, { $set : { bids: bids}, $push : { participants: userId }});
   }
 });

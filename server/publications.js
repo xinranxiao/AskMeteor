@@ -48,7 +48,6 @@ Meteor.publishComposite('currentQuestionAnswerAuction', function() {
           },
           {
             find: function(question) {
-              console.log(Auctions.find({questionId: question._id}, { sort: { createdAt: -1}, limit: 1}).fetch());
               return Auctions.find({questionId: question._id}, { sort: { createdAt: -1}, limit: 1});
             }
           }
