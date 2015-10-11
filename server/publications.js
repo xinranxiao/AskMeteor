@@ -30,6 +30,10 @@ Meteor.publish('serverState', function() {
   return ServerState.find({});
 });
 
+Meteor.publish('usersOnline', function() {
+  Counts.publish(this, 'usersOnline', Meteor.users.find({'status.online': true}));
+});
+
 Meteor.publishComposite('currentQuestionAnswerAuction', function() {
   return {
     find: function() {

@@ -19,7 +19,7 @@
                             <div class="column">
                                 <br>
                                 <div class="ui progress {{barStatus}}" data-percent={{progress}}>
-                                    <div class="bar" style="transition-duration: 300ms; width: {{progress}}%;">
+                                    <div class="bar" style="transition-duration: 1250ms; width: {{progress}}%;">
                                         <div class="progress">{{countDownMessage}}</div>
                                     </div>
                                     <div class="label">Time Left</div>
@@ -55,7 +55,10 @@
                             <div class="row">
                                 <div class="column">
                                     <div id="chat-text-segment" class="ui segment">
-                                        <h4 class="ui header">Chat</h4>
+                                        <h4 class="ui header">
+                                          Chat
+                                          <div class="sub header">{{ usersOnline }} people online</div>
+                                        </h4>
                                         <div id="chat-text" class="ui list scroll-box">
                                             {{#each messages}}
                                                 <div class="item"><strong>{{authorName}}</strong>:  {{text}}</div>
@@ -66,9 +69,14 @@
                             </div>
                             <div class="row">
                                 <div class="column">
-                                    <form class="ui input fluid" id="message-input">
+                                  <div class="ui form">
+                                    <div class="inline fields">
+                                      <div class="sixteen wide field">
+                                        <label style="margin:0">{{ myName }}:</label>
                                         <input type="text" name="message" placeholder="Let your voice be heard...">
-                                    </form>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                             </div>
                         </div>

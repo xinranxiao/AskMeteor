@@ -1,6 +1,14 @@
 var countdown = new ReactiveCountdown(9);
 
 Template.homepage.helpers({
+  usersOnline: function() {
+    return Counts.get('usersOnline');
+  },
+
+  myName: function() {
+    return Meteor.user().profile.name || Meteor.user().username;
+  },
+
   messages: function() {
     return Messages.find({}).fetch().map(function(message) {
       var user = Meteor.users.findOne({ _id: message.author});
@@ -101,15 +109,8 @@ Template.homepage.helpers({
 });
 
 Template.homepage.onRendered( function() {
-  if (!Meteor.user()) {
-    Meteor.loginAsGuest(function (err, boardId) {
-      if (err) {
-        alert(err);
-      }
-    });
-  }
-
   this.autorun(function() {
+    Meteor.subscribe('usersOnline');
     Meteor.subscribe('currentQuestionAnswerAuction', function() {
       var auction = Auctions.find({});
       auction.observeChanges({
