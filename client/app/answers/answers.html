@@ -1,0 +1,29 @@
+<template name="answers">
+    <div class="ui grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui vertical masthead center aligned segment">
+                    <div class="ui text container">
+                        <h1 class="ui header">
+                            Previous Answers
+                        </h1>
+                        <div id="answers-list" class="ui list">
+                            {{#each answersList}}
+                                <div class="item">
+                                    <div class="two column grid">
+                                        <div class="column">
+                                            <strong>Q:</strong>{{questionText}}
+                                        </div>
+                                        <div class="column">
+                                            <strong>A:</strong>{{answerText}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

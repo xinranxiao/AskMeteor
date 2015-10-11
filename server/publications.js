@@ -18,6 +18,14 @@ Meteor.publishComposite('messages', function() {
   }
 });
 
+Meteor.publish('questions', function() {
+  return Questions.find({});
+});
+
+Meteor.publish('answers', function() {
+  return Answers.find({});
+});
+
 Meteor.publishComposite('currentQuestionAnswerAuction', function() {
   return {
     find: function() {
@@ -45,3 +53,4 @@ Meteor.publishComposite('currentQuestionAnswerAuction', function() {
     ]
   }
 });
+
