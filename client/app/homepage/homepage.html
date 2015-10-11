@@ -4,7 +4,7 @@
             <div class="column">
                 <div class="ui vertical masthead center aligned segment">
                     <div class="ui text container">
-                        <h1 class="ui green header">
+                        <h1 class="ui header" style="color:#8e44ad">
                             AskMeteor
                         </h1>
                         <h3>
@@ -12,7 +12,7 @@
                         </h3>
                         <div class="ui segment">
                             <div class="column">
-                                <div id="current-question" class="ui green text container">
+                                <div id="current-question" class="ui green text container" style="word-wrap: break-word">
                                     <h2 class="ui green header">{{currentQuestion}}</h2>
                                 </div>
                             </div>
@@ -34,7 +34,8 @@
             <div class="column">
                 <div class="ui two column grid">
                     <div class="column">
-                        <div id="current-answer" class="ui segment">
+                        <div id="current-answer" class="ui segment" style="word-wrap: break-word">
+                            <h4 class="ui header">Current Answer</h4>
                             {{currentAnswer}}
                         </div>
                     </div>
@@ -94,7 +95,7 @@
                                 Instructions
                             </div>
                             <p>
-                                <b>!text</b> to vote for 'text' as the next part of the answer<br>
+                                <b>!text</b> to vote for 'text' as the next part of the answer or question<br>
                                 <b>!&#60;delete&#62;</b> to delete the last winning text<br>
                                 <b>!&#60;done&#62;</b> to finish the question
                             </p>

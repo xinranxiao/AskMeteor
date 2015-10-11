@@ -1,11 +1,13 @@
 <template name="applicationLayout">
-  {{> header }}
+    <div style="height: 100% !important; background-color:#ecf0f1">
+        {{> header }}
 
-  <main id="main" class="ui page grid">
-    <div class="sixteen wide column">
-      {{> yield }}
+        <main id="main" class="ui page grid" style="background-color:#ecf0f1">
+            <div class="sixteen wide column">
+                {{> yield }}
+            </div>
+        </main>
+
+        {{> footer }}
     </div>
-  </main>
-
-    {{> footer }}
 </template>

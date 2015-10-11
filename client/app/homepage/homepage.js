@@ -24,10 +24,10 @@ Template.homepage.helpers({
     var serverState = ServerState.findOne({});
     if (serverState) {
       if (serverState.lookingForQuestion) {
-        return 'Ask A Question!';
+        return 'Vote For A Question!';
       }
     }
-    return question ? "Current Question: " + question.text : 'Ask A Question!';
+    return question ? "Current Question: " + question.text : 'Vote For A Question!';
   },
 
   currentAnswer: function() {
