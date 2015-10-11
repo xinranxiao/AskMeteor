@@ -5,12 +5,23 @@
 Template.answers.helpers({
   answersList: function() {
     var answers = Answers.find().fetch();
-    console.log("wtf");
-    //console.log(answers);
+    var currentState = ServerState.findOne({});
+
     var list = [];
-    for(var j = 0; j < answers.length; j++){
+    for(var j = 0; j < answers.length; j++) {
+
+      // skip current question
+      if (answers[j].questionId === currentState.currentQuestionId) {
+        continue;
+      }
+
       var textArray = answers[j].text || [];
       var question = Questions.findOne({_id: answers[j].questionId});
+
+      if (question.text === "Vote for a new question.") {
+        continue;
+      }
+
       var sum = "";
       for(var i = 0; i < textArray.length; i++) {
           if (textArray[i].match(/^[.,-\/#!$%\^&\*;:{}=\-_`~()]/)){
@@ -19,12 +30,10 @@ Template.answers.helpers({
             sum = sum + " " + textArray[i];
           }
       }
-      if (question.text !== "Vote for a new question."){
-        list.push({
-          answerText: sum,
-          questionText: question.text
-        });
-      }
+      list.push({
+        answerText: sum,
+        questionText: question.text
+      });
     }
       return list;
   }
@@ -34,5 +43,6 @@ Template.answers.onRendered( function() {
   this.autorun(function() {
     Meteor.subscribe('answers');
     Meteor.subscribe('questions');
+    Meteor.subscribe('serverState');
   });
 });

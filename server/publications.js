@@ -26,6 +26,10 @@ Meteor.publish('answers', function() {
   return Answers.find({});
 });
 
+Meteor.publish('serverState', function() {
+  return ServerState.find({});
+});
+
 Meteor.publishComposite('currentQuestionAnswerAuction', function() {
   return {
     find: function() {
