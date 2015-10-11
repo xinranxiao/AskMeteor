@@ -1,3 +1,5 @@
+var countdown = new ReactiveCountdown(10);
+
 Template.homepage.helpers({
   messages: function() {
     return Messages.find({}).fetch().map(function(message) {
@@ -24,6 +26,8 @@ Template.homepage.helpers({
 
   currentAnswer: function() {
     var answer = Answers.find({}).fetch()[0];
+    countdown.stop();
+    countdown.start();
     if (!answer) {
       return "";
     }
@@ -61,6 +65,10 @@ Template.homepage.helpers({
     }).slice(0,5);
 
     return topbids;
+  },
+
+  countDown: function() {
+    return countdown.get() || 0;
   }
 });
 
