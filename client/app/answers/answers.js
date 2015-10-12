@@ -6,6 +6,9 @@ Template.answers.helpers({
   answersList: function() {
     var answers = Answers.find().fetch();
     var currentState = ServerState.findOne({});
+    if (!currentState) {
+      return;
+    }
 
     var list = [];
     for(var j = 0; j < answers.length; j++) {
@@ -32,7 +35,8 @@ Template.answers.helpers({
       }
       list.push({
         answerText: sum,
-        questionText: question.text
+        questionText: question.text,
+        questionId: answers[j].questionId
       });
     }
       return list;

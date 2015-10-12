@@ -16,16 +16,13 @@ standard-minifiers      # JS/CSS minifiers run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 semantic:ui-css
-service-configuration
-accounts-google
-accounts-password
 iron:router
-iandouglas:accounts-ui-semantic-ui
 aldeed:collection2
 percolate:synced-cron
 reywood:publish-composite
 xinranxiao:moniker
-random
 flyandi:reactive-countdown
 mizzao:user-status
 tmeasday:publish-counts
+accounts-base
+accounts-password

@@ -1,7 +1,7 @@
 Meteor.methods({
   'makeBid': function(message, currentQuestionId, userId) {
     // Enforce max length
-    if (message.length > 400) {
+    if (message.length > 90) {
       return;
     }
 

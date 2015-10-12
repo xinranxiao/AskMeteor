@@ -6,7 +6,7 @@ Template.homepage.helpers({
   },
 
   myName: function() {
-    return Meteor.user().profile.name || Meteor.user().username;
+    return Meteor.user() ? Meteor.user().username : '';
   },
 
   messages: function() {
@@ -36,25 +36,6 @@ Template.homepage.helpers({
       }
     }
     return question ? "Current Question: " + question.text : 'Vote For A Question!';
-  },
-
-  currentAnswer: function() {
-    var answer = Answers.find({}).fetch()[0];
-    if (!answer) {
-      return "";
-    }
-    var textArray = answer.text ? answer.text : [];
-
-    var sum = "";
-    for (var i = 0; i < textArray.length; i++) {
-      if (textArray[i].match(/^[.,-\/#!$%\^&\*;:{}=\-_`~()]/)){
-        sum = sum + textArray[i];
-      } else {
-        sum = sum + " " + textArray[i];
-      }
-    }
-
-    return sum;
   },
 
   topAnswerBids: function() {
@@ -141,7 +122,7 @@ Template.homepage.onRendered( function() {
               sum = sum + " " + textArray[i];
             }
           }
-          $('#caption').html(sum);
+          $('#caption').text(sum);
 
           Session.set('currAnswerLength', sum.length);
           Session.set('currAnswer', sum);
@@ -168,10 +149,10 @@ Template.homepage.onRendered( function() {
           }
 
           function type(answerText, currLength) {
-            $('#caption').html(answerText.substr(0, currLength++));
+            $('#caption').text(answerText.substr(0, currLength++));
 
             if (currLength < (answerText.length + 1)) {
-              setTimeout(function() {
+              Meteor.setTimeout(function() {
                 type(answerText, currLength);
               }, 120);
             } else {
@@ -181,10 +162,10 @@ Template.homepage.onRendered( function() {
           }
           function erase(answerText, currLength) {
             var currAnswerText = Session.get('currAnswer');
-            $('#caption').html(currAnswerText.substr(0, currLength--));
+            $('#caption').text(currAnswerText.substr(0, currLength--));
 
             if (currLength > answerText.length) {
-              setTimeout(function() {
+              Meteor.setTimeout(function() {
                 erase(answerText, currLength);
               }, 120);
             } else {

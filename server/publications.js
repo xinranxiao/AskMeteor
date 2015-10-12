@@ -6,7 +6,7 @@
 Meteor.publishComposite('messages', function() {
   return {
     find: function() {
-      return Messages.find({});
+      return Messages.find({}, { limit: 250 });
     },
     children: [
       {
@@ -32,6 +32,10 @@ Meteor.publish('serverState', function() {
 
 Meteor.publish('usersOnline', function() {
   Counts.publish(this, 'usersOnline', Meteor.users.find({'status.online': true}));
+});
+
+Meteor.publish('auctionStats', function(questionId) {
+  return Auctions.find({ questionId: questionId });
 });
 
 Meteor.publishComposite('currentQuestionAnswerAuction', function() {

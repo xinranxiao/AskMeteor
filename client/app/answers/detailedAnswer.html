@@ -1,0 +1,32 @@
+<template name="detailedAnswer">
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui vertical masthead center aligned segment">
+          <div class="ui text container">
+            <h1 class="ui header">
+              Breakdown For:
+            </h1>
+            <h4>{{ questionText }}</h4>
+            <table class="ui center aligned table">
+              <thead>
+              <tr>
+                <th>Bids</th>
+                <th>Votes</th>
+              </tr>
+              </thead>
+              <tbody>
+              {{#each bids}}
+                <tr>
+                  <td>{{name}}</td>
+                  <td>{{count}}</td>
+                </tr>
+              {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

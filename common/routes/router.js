@@ -6,19 +6,15 @@ Router.configure({
 });
 
 Router.onBeforeAction(function () {
-  var router = this;
-
   if (!Meteor.user()) {
     Meteor.loginAsGuest(function (err) {
       if (err) {
         alert(err);
-      } else {
-        router.next();
       }
     });
-  } else {
-    router.next();
   }
+
+  this.next();
 });
 
 /**
@@ -30,4 +26,17 @@ Router.route('/', {
 
 Router.route('/answers', {
   name: 'answers'
+});
+
+Router.route('/answers/:questionId', {
+  name: 'detailedAnswer',
+  waitOn: function() {
+    return Meteor.subscribe('questions');
+  },
+  data: function() {
+    console.log(Questions.findOne({ _id: this.params.questionId }));
+    return {
+      question: Questions.findOne({ _id: this.params.questionId })
+    }
+  }
 });

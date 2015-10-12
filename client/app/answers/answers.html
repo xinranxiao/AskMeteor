@@ -6,6 +6,7 @@
                     <div class="ui text container">
                         <h1 class="ui header">
                             Previous Answers
+                            <div class="sub header">Click on a question to view a breakdown of ALL the bids used to create the answer.</div>
                         </h1>
                         <table class="ui center aligned table">
                             <thead>
@@ -17,7 +18,7 @@
                             <tbody>
                                 {{#each answersList}}
                                     <tr>
-                                        <td>{{questionText}}</td>
+                                        <td><a href="/answers/{{questionId}}">{{questionText}}</a></td>
                                         <td>{{answerText}}</td>
                                     </tr>
                                 {{/each}}
