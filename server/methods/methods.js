@@ -19,10 +19,16 @@ Meteor.methods({
       return;
     }
 
+    message = message.replace(/\./g, "。");
+
     // Sanitize for valid bid.
     if (message[0] !== '!') {
       return;
     } else {
+      message = message.slice(1);
+    }
+
+    if (message[0] === '$') {
       message = message.slice(1);
     }
 
