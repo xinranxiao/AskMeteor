@@ -34,7 +34,6 @@ Router.route('/answers/:questionId', {
     return Meteor.subscribe('questions');
   },
   data: function() {
-    console.log(Questions.findOne({ _id: this.params.questionId }));
     return {
       question: Questions.findOne({ _id: this.params.questionId })
     }
