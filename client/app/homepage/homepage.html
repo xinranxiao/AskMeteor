@@ -36,7 +36,7 @@
                     <div class="column">
                         <div id="current-answer" class="ui segment" style="word-wrap: break-word">
                             <h4 class="ui header">Current Answer</h4>
-                            {{currentAnswer}}
+                            >&nbsp;<span id="caption"></span>&nbsp;<span id="cursor">|</span>
                         </div>
                     </div>
                     <div class="column">
@@ -56,9 +56,9 @@
                             <div class="row">
                                 <div class="column">
                                     <div id="chat-text-segment" class="ui segment">
-                                        <h4 class="ui header">
+                                        <h4 class="ui header" style="display:inline">
                                           Chat
-                                          <div class="sub header">{{ usersOnline }} people online</div>
+                                          <div class="sub header" style="display:inline">{{ usersOnline }} people online</div>
                                         </h4>
                                         <div id="chat-text" class="ui list scroll-box">
                                             {{#each messages}}
@@ -70,14 +70,14 @@
                             </div>
                             <div class="row">
                                 <div class="column">
-                                  <div class="ui form">
+                                  <form id="message-input" class="ui form">
                                     <div class="inline fields">
                                       <div class="sixteen wide field">
                                         <label style="margin:0">{{ myName }}:</label>
                                         <input type="text" name="message" placeholder="Let your voice be heard...">
                                       </div>
                                     </div>
-                                  </div>
+                                  </form>
                                 </div>
                             </div>
                         </div>
@@ -103,9 +103,11 @@
                                 Instructions
                             </div>
                             <p>
-                                <b>!text</b> to vote for 'text' as the next part of the answer or question<br>
-                                <b>!&#60;delete&#62;</b> to delete the last winning text<br>
-                                <b>!&#60;done&#62;</b> to finish the question
+                                <b>!text</b> - vote for 'text' as the next part of the answer or question<br>
+                                <b>!&#60;delete&#62;</b> - delete the last winning text<br>
+                                <b>!&#60;done&#62;</b> - finish the question and move on the next one.<br/>
+                                <br/>
+                                Use <b>!why is a spinning mouse?</b> to vote for a new question after the current one finishes.
                             </p>
                         </div>
                     </div>

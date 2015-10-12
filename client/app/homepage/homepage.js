@@ -109,6 +109,15 @@ Template.homepage.helpers({
 });
 
 Template.homepage.onRendered( function() {
+  Session.set('currAnswerLength', 0);
+  Session.set('cursorIntervalFunctionIdx', Meteor.setInterval(function(){
+    $('#cursor').animate({
+      opacity: 0
+    }, 'fast', 'swing').animate({
+      opacity: 1
+    }, 'fast', 'swing');
+  }, 750));
+
   this.autorun(function() {
     Meteor.subscribe('usersOnline');
     Meteor.subscribe('currentQuestionAnswerAuction', function() {
@@ -118,7 +127,73 @@ Template.homepage.onRendered( function() {
           countdown.stop();
           countdown.start();
         }
-      })
+      });
+
+      var answer = Answers.find({});
+      answer.observeChanges({
+        added: function(id, fields) {
+          var textArray = fields.text;
+          var sum = "";
+          for (var i = 0; i < textArray.length; i++) {
+            if (textArray[i].match(/^[.,-\/#!$%\^&\*;:{}=\-_`~()]/)){
+              sum = sum + textArray[i];
+            } else {
+              sum = sum + " " + textArray[i];
+            }
+          }
+          $('#caption').html(sum);
+
+          Session.set('currAnswerLength', sum.length);
+          Session.set('currAnswer', sum);
+        },
+        changed: function(id, newAnswer) {
+          newAnswer = newAnswer.text;
+
+          // Assume it's the same answer, unsafe but good enough for now.
+          var sum = "";
+          for (var i = 0; i < newAnswer.length; i++) {
+            if (newAnswer[i].match(/^[.,-\/#!$%\^&\*;:{}=\-_`~()]/)){
+              sum = sum + newAnswer[i];
+            } else {
+              sum = sum + " " + newAnswer[i];
+            }
+          }
+
+          // Animate the new diff + save the new length.
+          var currAnswerLength = Session.get('currAnswerLength');
+          if (currAnswerLength < sum.length) {
+            type(sum, currAnswerLength);
+          } else if (currAnswerLength > sum.length) {
+            erase(sum, currAnswerLength);
+          }
+
+          function type(answerText, currLength) {
+            $('#caption').html(answerText.substr(0, currLength++));
+
+            if (currLength < (answerText.length + 1)) {
+              setTimeout(function() {
+                type(answerText, currLength);
+              }, 120);
+            } else {
+              Session.set('currAnswerLength', currLength);
+              Session.set('currAnswer', answerText);
+            }
+          }
+          function erase(answerText, currLength) {
+            var currAnswerText = Session.get('currAnswer');
+            $('#caption').html(currAnswerText.substr(0, currLength--));
+
+            if (currLength > answerText.length) {
+              setTimeout(function() {
+                erase(answerText, currLength);
+              }, 120);
+            } else {
+              Session.set('currAnswerLength', currLength);
+              Session.set('currAnswer', answerText);
+            }
+          }
+        }
+      });
     });
     Meteor.subscribe("messages", function() {
       var messages = Messages.find({});
@@ -133,6 +208,10 @@ Template.homepage.onRendered( function() {
       });
     });
   });
+});
+
+Template.homepage.onDestroyed(function() {
+  Meteor.clearInterval(Session.get('cursorIntervalFunctionIdx'));
 });
 
 Template.homepage.events({
@@ -146,30 +225,4 @@ Template.homepage.events({
 
     event.target.message.value = "";
   }
-});
-
-Template.homepage.onRendered( function() {
-  if (!Meteor.user()) {
-    Meteor.loginAsGuest(function (err, boardId) {
-      if (err) {
-        alert(err);
-      }
-    });
-  }
-
-  this.autorun(function() {
-    Meteor.subscribe('currentQuestionAnswerAuction');
-    Meteor.subscribe("messages", function() {
-      var messages = Messages.find({});
-
-      messages.observeChanges({
-        added: function() {
-          var chatText = $("#chat-text");
-          setTimeout(function() {
-            chatText.scrollTop(chatText[0].scrollHeight);
-          }, 100); // much hack
-        }
-      });
-    });
-  });
 });
