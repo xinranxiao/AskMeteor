@@ -30,12 +30,19 @@ Meteor.methods({
       message = message.slice(1);
     }
 
+    var bid = message.trim().split(" ");
+    if (bid.length > 1) {
+      return;
+    } else {
+      bid = bid[0];
+    }
+
     // Add the bid to the auction.
     var bids = auction.bids ? JSON.parse(auction.bids) : {};
-    if (bids[message]) {
-      bids[message] = bids[message] + 1;
+    if (bids[bid]) {
+      bids[bid] = bids[bid] + 1;
     } else {
-      bids[message] = 1;
+      bids[bid] = 1;
     }
 
     Auctions.update(auction._id, { $set : { bids: JSON.stringify(bids) }, $push : { participants: userId }});

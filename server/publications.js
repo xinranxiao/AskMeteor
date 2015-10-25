@@ -6,7 +6,7 @@
 Meteor.publishComposite('messages', function() {
   return {
     find: function() {
-      return Messages.find({}, { sort: { createdAt: -1 }, limit: Constants.MAX_MESSAGES_PUBLISHED});
+      return Messages.find({}, { sort: { createdAt: 1 }, limit: Constants.MAX_MESSAGES_PUBLISHED});
     },
     children: [
       {
