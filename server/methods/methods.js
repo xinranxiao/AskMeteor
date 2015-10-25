@@ -1,14 +1,18 @@
 Meteor.methods({
   'makeBid': function(message, currentQuestionId, userId) {
-    // Enforce max length
-    if (message.length > 90) {
+    // Enforce max length for messages (and indirectly bids)
+    if (message.length > Constants.MAX_MESSAGE_LENTH) {
       return;
     }
 
+    // Insert the message.
     Messages.insert({
       text: message,
-      author: userId
+      author: userId,
+      createdAt: new Date()
     });
+
+    // Get the current auction.
     var auction = Auctions.findOne({ questionId: currentQuestionId }, { sort: { createdAt: -1}, limit: 1});
     if (!auction){
       return;
@@ -19,8 +23,6 @@ Meteor.methods({
       return;
     }
 
-    message = message.replace(/\./g, "。");
-
     // Sanitize for valid bid.
     if (message[0] !== '!') {
       return;
@@ -28,17 +30,14 @@ Meteor.methods({
       message = message.slice(1);
     }
 
-    if (message[0] === '$') {
-      message = message.slice(1);
-    }
-
-    var bids = auction.bids;
+    // Add the bid to the auction.
+    var bids = auction.bids ? JSON.parse(auction.bids) : {};
     if (bids[message]) {
       bids[message] = bids[message] + 1;
     } else {
       bids[message] = 1;
     }
 
-    Auctions.update(auction._id, { $set : { bids: bids}, $push : { participants: userId }});
+    Auctions.update(auction._id, { $set : { bids: JSON.stringify(bids) }, $push : { participants: userId }});
   }
 });

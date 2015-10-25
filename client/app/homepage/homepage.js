@@ -42,13 +42,17 @@ Template.homepage.helpers({
     var bidsArr = [];
     var auction = Auctions.findOne({});
     if (auction) {
-      var bidsMap = auction.bids;
-      for (var bid in bidsMap){
-        if(bidsMap.hasOwnProperty(bid)){
-          bidsArr.push({
-            phrase: bid,
-            count: bidsMap[bid]
-          });
+      var bids = auction.bids;
+      if (bids) {
+        bids = JSON.parse(auction.bids);
+
+        for (var bid in bids){
+          if(bids.hasOwnProperty(bid)){
+            bidsArr.push({
+              phrase: bid,
+              count: bids[bid]
+            });
+          }
         }
       }
     }
@@ -142,9 +146,9 @@ Template.homepage.onRendered( function() {
 
           // Animate the new diff + save the new length.
           var currAnswerLength = Session.get('currAnswerLength');
-          if (currAnswerLength < sum.length) {
+          if (currAnswerLength <= sum.length) {
             type(sum, currAnswerLength);
-          } else if (currAnswerLength > sum.length) {
+          } else {
             erase(sum, currAnswerLength);
           }
 
@@ -162,7 +166,7 @@ Template.homepage.onRendered( function() {
           }
           function erase(answerText, currLength) {
             var currAnswerText = Session.get('currAnswer');
-            $('#caption').text(currAnswerText.substr(0, currLength--));
+            $('#caption').text(currAnswerText.substr(0, --currLength));
 
             if (currLength > answerText.length) {
               Meteor.setTimeout(function() {

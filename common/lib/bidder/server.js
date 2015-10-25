@@ -37,8 +37,6 @@ if (Meteor.isServer) {
         if (!currentAuction) {
           currentAuction = Auctions.findOne(Auctions.insert({
             questionId: currentQuestionId,
-            bids: {},
-            participants: [],
             createdAt: new Date()
           }));
         }
@@ -48,15 +46,13 @@ if (Meteor.isServer) {
           // Create a new auction.
           Auctions.insert({
             questionId: currentQuestionId,
-            bids: {},
-            participants: [],
             createdAt: new Date()
           });
           return;
         }
 
         // Get the winning word
-        var bids = currentAuction.bids;
+        var bids = JSON.parse(currentAuction.bids);
         var winningBid = Object.keys(bids).sort(function(a,b){return bids[b]-bids[a]})[0];
 
         // Check if we're at an end condition
@@ -71,9 +67,7 @@ if (Meteor.isServer) {
 
           // Create corresponding answer
           Answers.insert({
-            questionId: currentQuestionId,
-            text: [],
-            collaborators: []
+            questionId: currentQuestionId
           });
         } else if (winningBid === "<done>") { // TODO @xx hardcoded
           // This means we just answered a question. Now we need to choose a new question.
@@ -84,9 +78,7 @@ if (Meteor.isServer) {
 
           // Create corresponding answer
           Answers.insert({
-            questionId: currentQuestionId,
-            text: [],
-            collaborators: []
+            questionId: currentQuestionId
           });
         } else {
           // Append this to the corresponding answer
@@ -108,8 +100,6 @@ if (Meteor.isServer) {
         // Create a new auction.
         Auctions.insert({
           questionId: currentQuestionId,
-          bids: {},
-          participants: [],
           createdAt: new Date()
         });
       }
